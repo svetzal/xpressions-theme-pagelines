@@ -84,9 +84,9 @@ class XprEOTAdjuster {
     if ($this->y == 2015 && $this->m == 1)
       $adjusted_eot = $this->createDate($this->y, 12, 31);
 
-    // If the EOT was blank set to end of 2014
+    // If the EOT was blank set to end of 2013
     if (!$adjusted_eot)
-      $adjusted_eot = $this->createDate(2014, 12, 31);
+      $adjusted_eot = $this->createDate(2013, 12, 31);
 
     // Adjust so that there is a grace-period of 1-month from the end of 
     // the year for renewals
