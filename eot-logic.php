@@ -15,22 +15,34 @@
  * 2014-01-05 - initial implementation
  */
 
-class XprS2MemberEOTRetriever {
+class XprFixedEOTRetriever {
+  function __construct($date) {
+    $this->init($date);
+  }
+
+  function init($date) {
+    if ($date) $this->currentEOT = $date;
+  }
+
+  function hasNoEOT() {
+    return $this->currentEOT == null;
+  }
+}
+
+class XprS2MemberEOTRetriever extends XprFixedEOTRetriever {
   function __construct() {
     $this->init();
   }
 
   function init() {
-    $eot = get_user_field("s2member_auto_eot_time");
-    if ($eot) {
-      $this->currentEOT = new DateTime("@$eot"); // Convert epoch time to PHP Date object
-    } else {
-      $this->currentEOT = null; // s2member EOT doesn't exist for recurring memberships, administrative users
+    if (function_exists('get_user_field')) {
+      $eot = get_user_field("s2member_auto_eot_time");
+      if ($eot) {
+        $this->currentEOT = new DateTime("@$eot"); // Convert epoch time to PHP Date object
+      } else {
+        $this->currentEOT = null; // s2member EOT doesn't exist for recurring memberships, administrative users
+      }
     }
-  }
-
-  function hasNoEOT() {
-    return $this->currentEOT == null;
   }
 }
 

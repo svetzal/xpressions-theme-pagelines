@@ -210,8 +210,24 @@ function adjust_member_eot_if_blank() {
     $retriever = new XprS2MemberEOTRetriever();
     if ($retriever->hasNoEOT()) {
       $adjuster = new XprEOTAdjuster($retriever);
-      update_user_option($user->ID, "s2member_auto_eot_time", $adjuster->updatedEOT());
+      if ($adjuster->adjustedEOT()) {
+        //update_user_option($user->ID, "s2member_auto_eot_time", $adjuster->adjustedEOT());
+      }
     }
   }
 }
 /* END Hook to adjust member EOT */
+
+/*
+ * Hook to adjust user EOT on renewal / changes
+ */
+function s2_hooked_adjust_member_eot($args) {
+  // Calculate adjusted renewal with base of today + 1 year
+  $renew = (new DateTime())->add(new DateInterval("P1Y"));
+  $retriever = new XprFixedEOTRetriever($renew);
+}
+
+add_action ("ws_plugin__s2member_during_configure_user_registration_front_side", "s2_hooked_adjust_member_eot");
+add_action ("ws_plugin__s2member_during_paypal_notify_during_subscr_signup_w_update_vars", "s2_hooked_adjust_member_eot");
+add_action ("ws_plugin__s2member_during_paypal_notify_during_subscr_modify", "s2_hooked_adjust_member_eot");
+/* END Hook to adjust user EOT on renewal / changes */

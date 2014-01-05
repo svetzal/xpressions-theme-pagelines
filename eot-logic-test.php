@@ -9,12 +9,11 @@ require_once(dirname(__FILE__) . '/eot-logic.php');
 date_default_timezone_set("UTC");
 
 // Mock our own retriever
-class XprTestEOTRetriever extends XprS2MemberEOTRetriever {
+class XprTestEOTRetriever extends XprFixedEOTRetriever {
+  // This test class takes a string in its constructor instead of an 
+  // actual date, must convert it to initialize properly
   function __construct($date) {
-    $this->init($date);
-  }
-  function init($date) {
-    if ($date) $this->currentEOT = new DateTime($date);
+    $this->init(new DateTime($date));
   }
 }
 
