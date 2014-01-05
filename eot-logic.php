@@ -29,8 +29,8 @@ class XprS2MemberEOTRetriever {
     }
   }
 
-  function hasEOT() {
-    return $this->currentEOT != null;
+  function hasNoEOT() {
+    return $this->currentEOT == null;
   }
 }
 
@@ -42,9 +42,11 @@ class XprEOTAdjuster {
 
   function init() {
     $this->eot = $this->retriever->currentEOT;
-    $this->y = $this->eot->format('Y');
-    $this->m = $this->eot->format('m');
-    $this->d = $this->eot->format('d');
+    if ($this->eot) {
+      $this->y = $this->eot->format('Y');
+      $this->m = $this->eot->format('m');
+      $this->d = $this->eot->format('d');
+    }
   }
 
   function currentEOT() {
@@ -69,6 +71,10 @@ class XprEOTAdjuster {
     // end of the previous year.
     if ($this->y == 2015 && $this->m == 1)
       $adjusted_eot = $this->createDate($this->y, 12, 31);
+
+    // If the EOT was blank set to end of 2014
+    if (!$adjusted_eot)
+      $adjusted_eot = $this->createDate(2014, 12, 31);
 
     // Adjust so that there is a grace-period of 1-month from the end of 
     // the year for renewals

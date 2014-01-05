@@ -14,7 +14,7 @@ class XprTestEOTRetriever extends XprS2MemberEOTRetriever {
     $this->init($date);
   }
   function init($date) {
-    $this->currentEOT = new DateTime($date);
+    if ($date) $this->currentEOT = new DateTime($date);
   }
 }
 
@@ -47,5 +47,8 @@ testForDate("End-of-year signup terminates at the end of the next year", "2014-1
 testForDate("End-of-year signup terminates at the end of the next year", "2014-11-17", "2016-01-31");
 testForDate("End-of-year signup terminates at the end of the next year", "2014-12-07", "2016-01-31");
 
+println("Empty eot terminates at end of current year");
+$adjuster = new XprEOTAdjuster(new XprTestEOTRetriever(null));
+if (compareDateToString($adjuster->adjustedEOT(), "2015-01-31")) fail("*** Failed empty eot, expected 2015-01-31 got ".$adjuster->adjustedEOT()->format('Y-m-d'));
 ?>
 
