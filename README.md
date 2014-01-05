@@ -9,8 +9,7 @@ functionality is provided:
 
 - add a sidebar to Wordpress intended for wide advertisements
 - add a sidebar to Wordpress intended for Members-only
-- modifications to the BuddyPress page template (removed comments
-  section)
+- override for the BuddyPress page template (removed comments section)
 - add a widget that displays the current logged-in member's expiration
   date (if applicable)
 - add a shortcode for use in content areas that displays the current
