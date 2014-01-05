@@ -7,7 +7,11 @@
  * @copyright 2014 Stacey Vetzal
  * @license BSD
  *
- * This code is originally derived from 
+ * This code is originally derived from Nick's Base Theme
+ * https://github.com/bearded-avenger/nicks-base-theme
+ *
+ * The latest version of this code released by Stacey can be found at
+ * https://github.com/svetzal/xpressions-theme-pagelines
  *
  * This code has been donated to the Xpressions group in Toronto, under 
  * the BSD license, allowing them full rights to use and modify as they 
@@ -18,6 +22,7 @@
  * 2013-12-21 - added new sidebar for members, tweaked page template
  * 2014-01-04 - added widget and shortcode to display member expiry
  * 2014-01-05 - added initial EOT logic for member expiry
+ * 2014-01-05 - wrapping things up, preparing for release
  */
 
 // Load Framework
