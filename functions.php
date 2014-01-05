@@ -34,13 +34,13 @@ class YourTheme {
 				'before_widget' => '<div style="text-align:center">',
 				'after_widget' => '</div>'
 			));
-                        register_sidebar(array(
+      register_sidebar(array(
 				'name' => 'Members Sidebar',
 				'id' => 'members-sidebar',
 				'description' => 'Sidebar for members-only pages.',
 				'before_widget' => '<div>',
 				'after_widget' => '</div>'
-                        ));
+      ));
 		}
 
 		if (function_exists("register_sidebar_widget")) {
@@ -48,8 +48,10 @@ class YourTheme {
 		}
 	}
 
-	// Send the user to the Theme Config panel after they activate. Note how link=nb_theme_config is the same name of the array settings. This must match.
-	function activation_url( $url ){
+  // Send the user to the Theme Config panel after they activate. Note 
+  // how link=nb_theme_config is the same name of the array settings. 
+  // This must match.
+  function activation_url( $url ){
 
 	    $url = home_url() . '?tablink=theme&tabsublink=nb_theme_config';
 	    return $url;
@@ -58,10 +60,14 @@ class YourTheme {
 	// Custom LESS Vars
 	function custom_less_vars($less){
 
-		// Adding a custom LESS var, use this in LESS as @my-var. In this example, its linked to a custom color picker in options. We also must set a default or else it's going to error.
-		// pl_hashify must be used with color pickers so that it appends the # symbol to the hex code
-		// pl_setting is being used because this is a global option used in the theme
-		$less['my-var']   =  pl_setting('my_custom_color') ? pl_hashify(pl_setting('my_custom_color')) : '#07C';
+    // Adding a custom LESS var, use this in LESS as @my-var. In this 
+    // example, its linked to a custom color picker in options. We also 
+    // must set a default or else it's going to error. pl_hashify must 
+    // be used with color pickers so that it appends the # symbol to the 
+    // hex code pl_setting is being used because this is a global option 
+    // used in the theme
+    $less['my-var']   =  pl_setting('my_custom_color') ?  
+      pl_hashify(pl_setting('my_custom_color')) : '#07C';
 
 		return $less;
 	}
@@ -131,7 +137,8 @@ function extract_member_expiration() {
 function widget_member_expiration($args) {
 	extract($args);
 	echo $before_widget;
-//	echo $before_title . "Membership Expiry" . $after_title;
+  // We don't really want a title... but if we did... -sv
+  // echo $before_title . "Membership Expiry" . $after_title;
 	echo extract_member_expiration();
 	echo $after_widget;
 }
