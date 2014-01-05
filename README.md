@@ -14,10 +14,10 @@ functionality is provided:
   date (if applicable)
 - add a shortcode for use in content areas that displays the current
   logged-in member's expiration date (if applicable)
+- add logic and hooks to adjust s2Member EOT dates to align with
+  Xpressions membership rules
 
 TODO:
 
-- add logic and hooks to adjust s2Member EOT dates to align with
-  Xpressions membership rules
 - draw CSS / JS out of the Pagelines custom code areas into the theme
 - visuals!
