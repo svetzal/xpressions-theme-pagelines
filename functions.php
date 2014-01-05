@@ -1,10 +1,33 @@
 <?php
 
-// Load Framework - don't delete this
+/**
+ * Xpressions sub-theme for Pagelines DMS
+ *
+ * @author Stacey Vetzal <svetzal@gmail.com>
+ * @copyright 2014 Stacey Vetzal
+ * @license BSD
+ *
+ * This code is originally derived from 
+ *
+ * This code has been donated to the Xpressions group in Toronto, under 
+ * the BSD license, allowing them full rights to use and modify as they 
+ * see fit.
+ *
+ * REVISION HISTORY:
+ * 2013-11-28 - initial implementation
+ * 2013-12-21 - added new sidebar for members, tweaked page template
+ * 2014-01-04 - added widget and shortcode to display member expiry
+ * 2014-01-05 - added initial EOT logic for member expiry
+ */
+
+// Load Framework
 require_once( dirname(__FILE__) . '/setup.php' );
 
-// Load our shit in a class cause we're awesome
-class YourTheme {
+// Load support code for Member EOT
+require_once( dirname(__FILE__) . '/eot-logic.php' );
+
+// Class-based theme implementation
+class XpressionsTheme {
 
 	function __construct() {
 
@@ -49,11 +72,11 @@ class YourTheme {
 	}
 
   // Send the user to the Theme Config panel after they activate. Note 
-  // how link=nb_theme_config is the same name of the array settings. 
+  // how link=xpr_theme_config is the same name of the array settings. 
   // This must match.
   function activation_url( $url ){
 
-	    $url = home_url() . '?tablink=theme&tabsublink=nb_theme_config';
+	    $url = home_url() . '?tablink=theme&tabsublink=xpr_theme_config';
 	    return $url;
 	}
 
@@ -72,7 +95,7 @@ class YourTheme {
 		return $less;
 	}
 
-    // WELCOME MESSAGE - HTML content for the welcome/intro option field
+  // WELCOME MESSAGE - HTML content for the welcome/intro option field
 	function welcome(){
 
 		ob_start();
@@ -87,21 +110,21 @@ class YourTheme {
 
 		$options = array();
 
-		$options['nb_theme_config'] = array(
+		$options['xpr_theme_config'] = array(
 		   'pos'                  => 50,
-		   'name'                 => __('Nicks Base Theme','nicks-base-theme'),
+		   'name'                 => __('Xpressions Base Theme','xpr-base-theme'),
 		   'icon'                 => 'icon-rocket',
 		   'opts'                 => array(
 		   		array(
 		       	    'type'        => 'template',
-            		'title'       => __('Welcome to My Theme','nicks-base-theme'),
+            		'title'       => __('Welcome to Xpressions Theme','xpr-base-theme'),
             		'template'    => $this->welcome()
 		       	),
 		       	array(
 		           'type'         => 'color',
-		           'title'        => __('Sample Color','nicks-base-theme'),
+		           'title'        => __('Sample Color','xpr-base-theme'),
 		           'key'          => 'my_custom_color',
-		           'label'        => __('Sample Color','nicks-base-theme'),
+		           'label'        => __('Sample Color','xpr-base-theme'),
 		           'default'      =>'#FFFFFF'
 		       	),
 		   )
@@ -110,7 +133,7 @@ class YourTheme {
 	}
 
 }
-new YourTheme;
+new XpressionsTheme;
 
 add_action('after_setup_theme', 'remove_admin_bar');
 
