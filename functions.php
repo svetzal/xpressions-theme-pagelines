@@ -174,7 +174,7 @@ function extract_member_expiration() {
 			$result = "Your membership does not expire";
 		}
 	}
-	return $result;
+	return $result . "(".wp_get_current_user()->roles.")";
 }
 
 // Widget implementation for sidebars
@@ -192,3 +192,21 @@ function tag_member_expiration($args) {
 	return extract_member_expiration();
 }
 /* END Elements to output human-friendly EOT dates */
+
+/*
+ * Hook to adjust current user EOT
+ *
+ * Will only adjust if the current EOT is blank and the user is an 
+ * s2member level 2 through 4.
+ */
+function adjust_member_eot_if_blank() {
+  $user_id = wp_get_current_user_id();
+  if ($user_id) {
+    $retriever = new XprS2MemberEOTRetriever();
+    if ($retriever->hasNoEOT()) {
+      $adjuster = new XprEOTAdjuster($retriever);
+      update_user_option($user_id, "s2member_auto_eot_time", $adjuster->updatedEOT());
+    }
+  }
+}
+/* END Hook to adjust member EOT */
