@@ -233,7 +233,7 @@ function s2_hooked_adjust_member_eot($args) {
   update_user_option($args['user_id'], "s2member_auto_eot_time", $adjuster->adjustedEOTAsEpoch());
 }
 
-//add_action ("ws_plugin__s2member_during_configure_user_registration_front_side", "s2_hooked_adjust_member_eot");
-//add_action ("ws_plugin__s2member_during_paypal_notify_during_subscr_signup_w_update_vars", "s2_hooked_adjust_member_eot");
-//add_action ("ws_plugin__s2member_during_paypal_notify_during_subscr_modify", "s2_hooked_adjust_member_eot");
+add_action ("ws_plugin__s2member_during_configure_user_registration_front_side", "s2_hooked_adjust_member_eot");
+add_action ("ws_plugin__s2member_during_paypal_notify_during_subscr_signup_w_update_vars", "s2_hooked_adjust_member_eot");
+add_action ("ws_plugin__s2member_during_paypal_notify_during_subscr_modify", "s2_hooked_adjust_member_eot");
 /* END Hook to adjust user EOT on renewal / changes */
