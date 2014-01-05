@@ -95,6 +95,10 @@ class XprEOTAdjuster {
     return $adjusted_eot;
   }
 
+  function adjustedEOTAsEpoch() {
+    return $this->adjustedEOT()->format('U');
+  }
+
   function createDate($Y, $m, $d) {
     return new DateTime("$Y-$m-$d"); // Create date from ISO format
   }
