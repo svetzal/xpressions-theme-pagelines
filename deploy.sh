@@ -6,4 +6,4 @@ AUTH="-i /Users/svetzal/.ssh/twm-aws.pem"
 
 scp -r $AUTH * $TARGET:$LOCATION
 ssh $AUTH $TARGET "chown -R xpressions:psacln $LOCATION"
-
+ssh $AUTH $TARGET "rm -f $LOCATION/deploy.sh $LOCATION/push.sh"
