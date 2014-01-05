@@ -71,9 +71,17 @@ class XpressionsTheme {
       ));
 		}
 
+    // Register our expiry widget
+    // @todo get this out of global space
 		if (function_exists("register_sidebar_widget")) {
 			register_sidebar_widget('Xpressions Member Expiry', 'widget_member_expiration');
 		}
+
+    // Register our expiry short-code
+    // @todo get this out of global space
+    if (function_exists("add_shortcode")) {
+      add_shortcode('xpressionsExpiry', 'tag_member_expiration');
+    }
 	}
 
   // Send the user to the Theme Config panel after they activate. Note 
@@ -140,6 +148,9 @@ class XpressionsTheme {
 }
 new XpressionsTheme;
 
+/*
+ * Remove the top admin bar for non-administrative users
+ */
 add_action('after_setup_theme', 'remove_admin_bar');
 
 function remove_admin_bar() {
@@ -147,7 +158,11 @@ function remove_admin_bar() {
 		show_admin_bar(false);
 	}
 }
+/* END Remove the top admin bar for non-administrative users */
 
+/*
+ * Elements to output human-friendly EOT dates
+ */
 function extract_member_expiration() {
 	$result = "";
 	if (function_exists('get_user_field')) {
@@ -162,6 +177,7 @@ function extract_member_expiration() {
 	return $result;
 }
 
+// Widget implementation for sidebars
 function widget_member_expiration($args) {
 	extract($args);
 	echo $before_widget;
@@ -171,8 +187,8 @@ function widget_member_expiration($args) {
 	echo $after_widget;
 }
 
+// Shortcode implementation for content areas
 function tag_member_expiration($args) {
 	return extract_member_expiration();
 }
-
-add_shortcode('xpressionsExpiry', 'tag_member_expiration');
+/* END Elements to output human-friendly EOT dates */
