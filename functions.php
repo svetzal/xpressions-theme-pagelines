@@ -226,7 +226,7 @@ function s2_hooked_adjust_member_eot($args) {
   $renew = (new DateTime())->add(new DateInterval("P1Y"));
   $retriever = new XprFixedEOTRetriever($renew);
   $adjuster = new XprEOTAdjuster($retriever);
-  update_user_options($args['user_id'], "s2member_auto_eot_time", $adjuster->adjustedEOT());
+  update_user_option($args['user_id'], "s2member_auto_eot_time", $adjuster->adjustedEOT());
 }
 
 add_action ("ws_plugin__s2member_during_configure_user_registration_front_side", "s2_hooked_adjust_member_eot");
