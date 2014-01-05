@@ -1,0 +1,14 @@
+/*  
+Theme Name: Xpressions Custom Theme
+Description: Base theme customizations for Xpressions.org
+Version: 1.0
+Author: Stacey Vetzal
+Author URI: http://vetzal.com
+Template: dms
+*/
+
+td,th {
+	font-size: 10pt;
+	line-height: 12pt;
+}
+
