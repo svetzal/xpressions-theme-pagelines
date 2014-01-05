@@ -220,6 +220,8 @@ function adjust_member_eot_if_blank() {
 
 /*
  * Hook to adjust user EOT on renewal / changes
+ * TODO: Watch that these hooks continue to exist, and their behaviour 
+ * doesn't change on future versions of the s2Member plugin
  */
 function s2_hooked_adjust_member_eot($args) {
   // Calculate adjusted renewal with base of today + 1 year
