@@ -164,6 +164,11 @@ function remove_admin_bar() {
  * Elements to output human-friendly EOT dates
  */
 function extract_member_expiration() {
+
+  // HACK! This needs to be removed some time in 2014 once all members 
+  // have logged in at least once and had their EOT adjusted
+  adjust_member_eot_if_blank();
+
 	$result = "";
 	if (function_exists('get_user_field')) {
 		$eot = get_user_field("s2member_auto_eot_time");
@@ -174,10 +179,6 @@ function extract_member_expiration() {
 			$result = "Your membership does not expire";
 		}
 	}
-
-  // HACK! This needs to be removed some time in 2014 once all members 
-  // have logged in at least once and had their EOT adjusted
-  adjust_member_eot_if_blank();
 
 	return $result;
 }
@@ -211,7 +212,7 @@ function adjust_member_eot_if_blank() {
     if ($retriever->hasNoEOT()) {
       $adjuster = new XprEOTAdjuster($retriever);
       if ($adjuster->adjustedEOT()) {
-        //update_user_option($user->ID, "s2member_auto_eot_time", $adjuster->adjustedEOT());
+        update_user_option($user->ID, "s2member_auto_eot_time", $adjuster->adjustedEOTAsEpoch());
       }
     }
   }
@@ -225,13 +226,14 @@ function adjust_member_eot_if_blank() {
  */
 function s2_hooked_adjust_member_eot($args) {
   // Calculate adjusted renewal with base of today + 1 year
-  $renew = (new DateTime())->add(new DateInterval("P1Y"));
+  $now = new DateTime();
+  $renew = $now->add(new DateInterval("P1Y"));
   $retriever = new XprFixedEOTRetriever($renew);
   $adjuster = new XprEOTAdjuster($retriever);
-  update_user_option($args['user_id'], "s2member_auto_eot_time", $adjuster->adjustedEOT());
+  update_user_option($args['user_id'], "s2member_auto_eot_time", $adjuster->adjustedEOTAsEpoch());
 }
 
-add_action ("ws_plugin__s2member_during_configure_user_registration_front_side", "s2_hooked_adjust_member_eot");
-add_action ("ws_plugin__s2member_during_paypal_notify_during_subscr_signup_w_update_vars", "s2_hooked_adjust_member_eot");
-add_action ("ws_plugin__s2member_during_paypal_notify_during_subscr_modify", "s2_hooked_adjust_member_eot");
+//add_action ("ws_plugin__s2member_during_configure_user_registration_front_side", "s2_hooked_adjust_member_eot");
+//add_action ("ws_plugin__s2member_during_paypal_notify_during_subscr_signup_w_update_vars", "s2_hooked_adjust_member_eot");
+//add_action ("ws_plugin__s2member_during_paypal_notify_during_subscr_modify", "s2_hooked_adjust_member_eot");
 /* END Hook to adjust user EOT on renewal / changes */
