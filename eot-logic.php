@@ -15,5 +15,71 @@
  * 2014-01-05 - initial implementation
  */
 
+class XprS2MemberEOTRetriever {
+  function __construct() {
+    $this->init();
+  }
+
+  function init() {
+    $eot = get_user_field("s2member_auto_eot_time");
+    if ($eot) {
+      $this->currentEOT = new DateTime("@$eot"); // Convert epoch time to PHP Date object
+    } else {
+      $this->currentEOT = null; // s2member EOT doesn't exist for recurring memberships, administrative users
+    }
+  }
+
+  function hasEOT() {
+    return $this->currentEOT != null;
+  }
+}
+
+class XprEOTAdjuster {
+  function __construct($retriever) {
+    $this->retriever = $retriever;
+    $this->init();
+  }
+
+  function init() {
+    $this->eot = $this->retriever->currentEOT;
+    $this->y = $this->eot->format('Y');
+    $this->m = $this->eot->format('m');
+    $this->d = $this->eot->format('d');
+  }
+
+  function currentEOT() {
+    return $this->eot;
+  }
+
+  // Return adjusted EOT following Xpressions membership rules
+  function adjustedEOT() {
+    $adjusted_eot = $this->eot;
+
+    // If the EOT falls between January 1 and Oct 31, shorten it to the 
+    // end of the current year
+    if ($this->m >= 1 && $this->m <= 10)
+      $adjusted_eot = $this->createDate($this->y, 12, 31);
+
+    // If the EOT falls between November 1 and Dec 31, lengthen it to 
+    // the end of the next year.
+    if ($this->m >= 11)
+      $adjusted_eot = $this->createDate($this->y+1, 12, 31);
+
+    // If the EOT falls between January 1 and 31, move the EOT to the 
+    // end of the previous year.
+    if ($this->y == 2015 && $this->m == 1)
+      $adjusted_eot = $this->createDate($this->y, 12, 31);
+
+    // Adjust so that there is a grace-period of 1-month from the end of 
+    // the year for renewals
+    $adjusted_eot->add(new DateInterval("P1M"));
+
+    return $adjusted_eot;
+  }
+
+  function createDate($Y, $m, $d) {
+    return new DateTime("$Y-$m-$d"); // Create date from ISO format
+  }
+}
 
 ?>
