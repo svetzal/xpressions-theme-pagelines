@@ -2,6 +2,7 @@
 
 TARGET="root@commonsroot.com"
 LOCATION="/var/www/vhosts/xpressions.org/httpdocs/wp-content/themes/xpressions-theme"
+#LOCATION="/var/www/vhosts/xpressions.org/subdomains/new/httpdocs/wp-content/themes/xpressions-theme"
 AUTH="-i /Users/svetzal/.ssh/twm-aws.pem"
 
 scp -r $AUTH * $TARGET:$LOCATION
