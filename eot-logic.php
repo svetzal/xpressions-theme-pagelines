@@ -79,11 +79,6 @@ class XprEOTAdjuster {
     if ($this->m >= 11)
       $adjusted_eot = $this->createDate($this->y+1, 12, 31);
 
-    // If the EOT falls between January 1 and 31, move the EOT to the 
-    // end of the previous year.
-    if ($this->y == 2015 && $this->m == 1)
-      $adjusted_eot = $this->createDate($this->y, 12, 31);
-
     // If the EOT was blank set to end of 2013
     if (!$adjusted_eot)
       $adjusted_eot = $this->createDate(2013, 12, 31);
