@@ -43,10 +43,14 @@ function compareDateToString($date, $str) {
   return !($t == $date);
 }
 
+function valueOrNull($val) {
+  return $val == null? "(null)":$val;
+}
+
 function testForDate($desc, $provided, $expected) {
-  println($desc . " - " . $provided . " -> " . $expected);
+  println($desc . " - " . valueOrNull($provided) . " -> " . valueOrNull($expected));
   $adjuster = new XprEOTAdjuster(new XprTestEOTRetriever($provided));
-  if (compareDateToString($adjuster->adjustedEOT(), $expected)) fail("*** Failed renewal for $provided, expected $expected, got ".$adjuster->adjustedEOT()->format('Y-m-d'));
+  if (compareDateToString($adjuster->adjustedEOT(), $expected)) fail("*** Failed renewal for ".valueOrNull($provided).", expected ".valueOrNull($expected).", got ".$adjuster->adjustedEOT()->format('Y-m-d'));
 }
 
 testForDate("Correctly adjusts for grace period", "2014-12-31", "2015-12-31");
@@ -57,9 +61,6 @@ testForDate("Mid-year signup terminates at the end of the current year", "2015-0
 testForDate("End-of-year signup terminates at the end of the next year", "2014-11-01", "2015-12-31");
 testForDate("End-of-year signup terminates at the end of the next year", "2014-11-17", "2015-12-31");
 testForDate("End-of-year signup terminates at the end of the next year", "2014-12-07", "2015-12-31");
-
-println("Empty eot terminates at end of current year");
-$adjuster = new XprEOTAdjuster(new XprTestEOTRetriever(null));
-if (compareDateToString($adjuster->adjustedEOT(), "2013-12-31")) fail("*** Failed empty eot, expected 2013-12-31 got ".$adjuster->adjustedEOT()->format('Y-m-d'));
+testForDate("Empty eot terminates at end of 2013", null, "2013-12-31");
 ?>
 
