@@ -17,8 +17,20 @@ class XprTestEOTRetriever extends XprFixedEOTRetriever {
   }
 }
 
+function eol() {
+  global $LINE_BREAK;
+  if (!$LINE_BREAK) {
+    if (PHP_SAPI == 'cli') {
+      $LINE_BREAK = "\n";
+    } else {
+      $LINE_BREAK = "<br>";
+    }
+  }
+  return $LINE_BREAK;
+}
+
 function println($str) {
-  echo $str . "\n";
+  echo $str . eol();
 }
 
 function fail($str) {
