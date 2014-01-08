@@ -225,10 +225,7 @@ function adjust_member_eot_if_blank() {
  * doesn't change on future versions of the s2Member plugin
  */
 function s2_hooked_adjust_member_eot($args) {
-  // Calculate adjusted renewal with base of today + 1 year
-  $now = new DateTime();
-  $renew = $now->add(new DateInterval("P1Y"));
-  $retriever = new XprFixedEOTRetriever($renew);
+  $retriever = new XprFixedEOTRetriever(new DateTime());
   $adjuster = new XprEOTAdjuster($retriever);
   update_user_option($args['user_id'], "s2member_auto_eot_time", $adjuster->adjustedEOTAsEpoch());
 }
