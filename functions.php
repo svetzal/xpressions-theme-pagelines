@@ -240,3 +240,24 @@ add_action ("ws_plugin__s2member_during_paypal_notify_during_subscr_modify", "s2
  */
 add_filter( 'bp_registration_needs_activation', '__return_false' );
 /* END Hook to disable required user activation in BuddyPress */
+
+/*
+ * Hook to add the EOT to the user table
+ */
+function add_eot_user_column($defaults) {
+  $defaults['eot'] = __('EOT', 'user-column');
+  return $defaults;
+}
+function add_custom_user_columns($value, $column_name, $id) {
+  if ($column_name == 'eot') {
+    $eot = get_user_field("s2member_auto_eot_time", $id);
+    if ($eot) {
+      $expiry = new DateTime("@$eot");
+      return $expiry->format('Y-m-d');
+    }
+  }
+}
+add_action('manage_users_custom_column', 'add_custom_user_columns', 15, 3);
+add_filter('manage_users_columns', 'add_eot_user_column', 15, 1);
+/* END Hook to add the EOT to the user table */
+
