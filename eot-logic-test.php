@@ -53,15 +53,14 @@ function testForDate($desc, $provided, $expected) {
   if (compareDateToString($adjuster->adjustedEOT(), $expected)) fail("*** Failed renewal for ".valueOrNull($provided).", expected ".valueOrNull($expected).", got ".$adjuster->adjustedEOT()->format('Y-m-d'));
 }
 
-testForDate("Correctly adjusts for grace period", "2014-12-31", "2015-12-31");
-testForDate("Recent renewal during Jan 2014, adjusts to CY2015", "2015-01-04", "2015-12-31");
-testForDate("Mid-year signup terminates at the end of the current year", "2015-06-31", "2015-12-31");
-testForDate("Early-year signup terminates at the end of the current year", "2015-01-11", "2015-12-31");
-testForDate("Early current year signup terminates at the end of the current year", "2014-01-11", "2014-12-31");
-testForDate("Mid-year signup terminates at the end of the current year", "2015-02-19", "2015-12-31");
-testForDate("End-of-year signup terminates at the end of the next year", "2014-11-01", "2015-12-31");
-testForDate("End-of-year signup terminates at the end of the next year", "2014-11-17", "2015-12-31");
-testForDate("End-of-year signup terminates at the end of the next year", "2014-12-07", "2015-12-31");
-testForDate("Empty eot terminates at end of 2013", null, "2013-12-31");
+testForDate("Correctly adjusts for grace period", "2014-12-31", "2016-01-31");
+testForDate("Recent renewal during Jan 2014, adjusts to CY2015", "2015-01-04", "2016-01-31");
+testForDate("Mid-year signup terminates at the end of the current year", "2015-06-31", "2016-01-31");
+testForDate("Mid-year signup terminates at the end of the current year", "2015-01-11", "2016-01-31");
+testForDate("Mid-year signup terminates at the end of the current year", "2015-02-19", "2016-01-31");
+testForDate("End-of-year signup terminates at the end of the next year", "2014-11-01", "2016-01-31");
+testForDate("End-of-year signup terminates at the end of the next year", "2014-11-17", "2016-01-31");
+testForDate("End-of-year signup terminates at the end of the next year", "2014-12-07", "2016-01-31");
+testForDate("Empty eot terminates at end of 2013", null, "2014-01-31");
 ?>
 
